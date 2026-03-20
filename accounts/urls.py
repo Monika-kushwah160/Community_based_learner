@@ -16,13 +16,13 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import signup_view, CustomLoginView, CustomLogoutView, profile_view, edit_profile
+from .views import signup_view, CustomLoginView, CustomLogoutView, profile_view, edit_profile,test_task
 
 urlpatterns = [
     path("signup/", signup_view, name="signup"),
     path("login/", CustomLoginView.as_view(), name="login"),
     path("logout/", CustomLogoutView.as_view(), name="logout"),
-
+    path('celery-test/', test_task, name='celery_test'),
     path("profile/<int:user_id>/", profile_view, name="profile"),
     path("profile/edit/<int:user_id>/", edit_profile, name="edit_profile"),
 ]

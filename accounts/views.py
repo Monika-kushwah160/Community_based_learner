@@ -73,3 +73,9 @@ def edit_profile(request, user_id):
         form = ProfileForm(instance=profile)
 
     return render(request, "accounts/edit_profile.html", {"form": form})
+
+from .tasks import add
+
+def test_task(request):
+    add.delay(5, 10)
+    return HttpResponse("Task sent to Celery")
