@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<h2>Leave Feedback</h2>
+
+<h3>{{ session.title }}</h3>
+
+<form method="post">
+
+{% csrf_token %}
+
+<label>Rating (1-5)</label>
+{{ form.rating }}
+
+<label>Comment</label>
+{{ form.comment }}
+
+<button type="submit">
+Submit Feedback
+</button>
+
+</form>
+
+{% endblock %}
