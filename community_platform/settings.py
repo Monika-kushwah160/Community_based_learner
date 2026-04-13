@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_results',
     'accounts',
     'dashboard',
     'sessions_app',
@@ -163,12 +164,30 @@ CHANNEL_LAYERS = {
 
 
 STRIPE_PUBLIC_KEY = "pk_test_your_key"
-STRIPE_SECRET_KEY = "sk_test_your_key"
 
-# celery
+STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY")
+
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+
+
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'kushwahmonika218@email.com'
+EMAIL_HOST_PASSWORD = 'esvskxukfclsxrga'

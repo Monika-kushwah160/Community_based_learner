@@ -3,9 +3,9 @@ from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from sessions_app.models import Session
 from .models import Payment
-
+print("hellooooooooooooooooooooooooooooooooooooooooooo")
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
+print("STRIPE KEY:", settings.STRIPE_SECRET_KEY,"done")
 
 def checkout(request, session_id):
 

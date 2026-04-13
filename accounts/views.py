@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
-
+from .tasks import send_welcome_email
 from .forms import SignUpForm, ProfileForm
 from .models import Profile,User
 
@@ -16,6 +16,9 @@ def signup_view(request):
 
             # create profile automatically
             Profile.objects.create(user=user)
+
+             # send email using celery
+            send_welcome_email.delay(user.email, user.username)
 
             # redirect to login page
             return redirect("login")
@@ -74,8 +77,3 @@ def edit_profile(request, user_id):
 
     return render(request, "accounts/edit_profile.html", {"form": form})
 
-from .tasks import add
-
-def test_task(request):
-    add.delay(5, 10)
-    return HttpResponse("Task sent to Celery")
